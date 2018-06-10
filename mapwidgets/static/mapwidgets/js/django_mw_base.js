@@ -1,6 +1,6 @@
 (function($) {
 	DjangoMapWidgetBase = $.Class.extend({
-		
+
 		init: function(options){
 			$.extend(this, options);
 			this.coordinatesOverlayToggleBtn.on("click", this.toggleCoordinatesOverlay.bind(this));
@@ -75,7 +75,11 @@
                 var latlng = {lat: parseFloat(lat), lng: parseFloat(lng)};
 				this.geocoder.geocode({'location' : latlng}, function(results, status) {
                     if (status === google.maps.GeocoderStatus.OK) {
-	                    var placeObj = results[0] || {};
+	                    var placeObj = results[1] || {};
+                        var nameInResultInput = document
+                            .getElementById('id_nameInResult');
+
+                        nameInResultInput.value = placeObj.formatted_address || "";
 	                    $(this.addressAutoCompleteInput).val(placeObj.formatted_address || "");
 	                    $(document).trigger(this.placeChangedTriggerNameSpace,
 		                    [placeObj, lat, lng, this.wrapElemSelector, this.locationInput]
@@ -193,7 +197,12 @@
 			var lat = place.geometry.location.lat();
 			var lng = place.geometry.location.lng();
 			this.updateLocationInput(lat, lng, place);
-			this.fitBoundMarker()
+			this.fitBoundMarker();
+
+            var nameInResultInput = document
+                .getElementById('id_nameInResult');
+
+            nameInResultInput.value = place.formatted_address;
 		},
 		
 		
