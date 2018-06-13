@@ -79,6 +79,9 @@
                         var nameInResultInput = document
                             .getElementById('id_nameInResult');
 
+                        var jsonField = document.getElementById('id_google_result');
+                        jsonField.value = JSON.stringify(results);
+
                         nameInResultInput.value = placeObj.formatted_address || "";
 	                    $(this.addressAutoCompleteInput).val(placeObj.formatted_address || "");
 	                    $(document).trigger(this.placeChangedTriggerNameSpace,
@@ -203,6 +206,11 @@
                 .getElementById('id_nameInResult');
 
             nameInResultInput.value = place.formatted_address;
+
+            var jsonField = document.getElementById('id_google_result');
+            jsonField.value = JSON.stringify(place);
+
+            console.log('place', place);
 		},
 		
 		
